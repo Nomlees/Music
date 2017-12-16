@@ -10,16 +10,16 @@ import java.nio.channels.ReadableByteChannel;
  * @author Заставская А.К
  */
 
-public class Buf {
+public class Download extends Thread {
+    private static final String OUT_FILE_TXT = "src\\ru\\zak\\music\\outFile.txt";
     private static final String PATH_TO_MUSIC = "src\\ru\\zak\\music\\music";
-    private String outFile;
-    Buf(final String outFile){
-        this.outFile = outFile;
-    }
 
-
-    public static void dowloadMusic() {
-        try (BufferedReader musicFile = new BufferedReader(new FileReader("src\\ru\\zak\\music\\outFile"))) {
+    /**
+     *
+     * Метод реализует скачивание музыки в папку music с помощью метода downloadUsingNIO
+     */
+    public void run() {
+        try (BufferedReader musicFile = new BufferedReader(new FileReader(OUT_FILE_TXT))) {
             String music;
             int count = 0;
             try {
