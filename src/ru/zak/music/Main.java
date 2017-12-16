@@ -12,14 +12,15 @@ public class Main {
 
     public static void main(String[] args) {
         Download();
-        new Buf(OUT_FILE_TXT);
+        Download download = new Download();
+        download.start();
 
     }
 
     /**
      * Метод формирует текстовый файл содержаий готовые ссылки, по шаблону регулярного выражения
      */
-    public static void Download() {
+    public static void Download(){
         String Url;
         String result;
         try (BufferedReader inFile = new BufferedReader(new FileReader(IN_FILE_TXT));
