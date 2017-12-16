@@ -11,10 +11,9 @@ public class Main {
     private static final String OUT_FILE_TXT = "src\\ru\\zak\\music\\outFile.txt";
 
     public static void main(String[] args) {
-        Download();
+
         Download download = new Download();
         download.start();
-        
 
     }
 

@@ -19,6 +19,7 @@ public class Download extends Thread {
      * Метод реализует скачивание музыки в папку music с помощью метода downloadUsingNIO
      */
     public void run() {
+        Main.Download();
         try (BufferedReader musicFile = new BufferedReader(new FileReader(OUT_FILE_TXT))) {
             String music;
             int count = 0;
