@@ -10,10 +10,9 @@ public class Main {
     private static final String IN_FILE_TXT = "src\\ru\\zak\\music\\inFile.txt";
     private static final String OUT_FILE_TXT = "src\\ru\\zak\\music\\outFile.txt";
 
-    public static void main(String[] args) {
-
-        Download download = new Download();
-        download.start();
+    public static void main(String[] args) throws IOException {
+        BufferedReader inFile = new BufferedReader(new FileReader(IN_FILE_TXT));
+        new Download(0, inFile.readLine()).start();
 
     }
 
@@ -22,11 +21,11 @@ public class Main {
      * @return возвращает строку с HTML-кодом
      */
     static String link() {
-        String Url;
+        String urlStr;
         String result = null;
         try (BufferedReader inFile = new BufferedReader(new FileReader(IN_FILE_TXT))) {
-            while ((Url = inFile.readLine()) != null) {
-                URL url = new URL(Url);
+            while ((urlStr = inFile.readLine()) != null) {
+                URL url = new URL(urlStr);
                 try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()))) {
                     result = bufferedReader.lines().collect(Collectors.joining("\n"));
                 }
