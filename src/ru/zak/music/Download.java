@@ -11,41 +11,44 @@ import java.nio.channels.ReadableByteChannel;
  */
 
 public class Download extends Thread {
-    private static final String OUT_FILE_TXT = "src\\ru\\zak\\music\\outFile.txt";
     private static final String PATH_TO_MUSIC = "src\\ru\\zak\\music\\music";
+    private int count = 0;
+    private String strUrl;
+
+     Download(int count, String strUrl) {
+        this.count = count;
+        this.strUrl = strUrl;
+    }
+
+
+
 
     /**
-     *
-     * Метод реализует скачивание музыки в папку music с помощью метода downloadUsingNIO
+     * Метод реализует скачивание музыки в папку music
      */
     public void run() {
-        Main.Download();
-        try (BufferedReader musicFile = new BufferedReader(new FileReader(OUT_FILE_TXT))) {
-            String music;
-            int count = 0;
-            try {
-                while ((music = musicFile.readLine()) != null) {
-                    downloadUsingNIO(music, PATH_TO_MUSIC + String.valueOf(count) + ".mp3");
-                    count++;
-                }
-            } catch (IOException e) {
+        Main.link();
+        Main.result();
+        try {
+
+            URL url = new URL(strUrl);
+
+
+            try (ReadableByteChannel byteChannel = Channels.newChannel(url.openStream());
+                 FileOutputStream stream = new FileOutputStream(PATH_TO_MUSIC + String.valueOf(count) + ".mp3")) {
+
+                stream.getChannel().transferFrom(byteChannel, 0, Long.MAX_VALUE);
+
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+
         }
-
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
     }
 
 
-    private static void downloadUsingNIO(String strUrl, String file) throws IOException {
-        URL url = new URL(strUrl);
-        ReadableByteChannel byteChannel = Channels.newChannel(url.openStream());
-        FileOutputStream stream = new FileOutputStream(file);
-        stream.getChannel().transferFrom(byteChannel, 0, Long.MAX_VALUE);
-        stream.close();
-        byteChannel.close();
-    }
 }
 
 
